@@ -1,9 +1,9 @@
 import React from "react";
 import "./Button.css";
 
-const ActionButton = ({ action, width = 80, background = 'crimson' }) => {
+const ActionButton = ({ action, width = 80, background = "crimson", handler }) => {
   return (
-    <div
+    <button
       style={{
         width,
         background,
@@ -12,13 +12,14 @@ const ActionButton = ({ action, width = 80, background = 'crimson' }) => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        borderRight: "1px #484848 solid",
-        borderBottom: "1px #484848 solid",
+        border: "1px #484848 solid",
         fontSize: 25,
+        outline: "none"
       }}
+      onClick={() => handler(action)}
     >
       {action}
-    </div>
+    </button>
   );
 };
 

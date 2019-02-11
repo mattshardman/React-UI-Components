@@ -1,9 +1,10 @@
 import React from "react";
 import "./Button.css";
 
-function NumberButton({ number, width = 80 }) {
+function NumberButton({ number, width = 80, pressHandler }) {
   return (
-    <div
+    <button
+    className="btn"
       style={{
         width,
         boxSizing: "border-box",
@@ -12,14 +13,15 @@ function NumberButton({ number, width = 80 }) {
         justifyContent: "center",
         alignItems: "center",
         background: "#fff",
-        borderLeft: "1px #484848 solid",
-        borderRight: "1px #484848 solid",
-        borderBottom: "1px #484848 solid",
+        border: "1px #484848 solid",
         fontSize: 25,
+        outline: "none",
+        cursor: "pointer"
       }}
+      onClick={() => pressHandler(number)}
     >
       {number}
-    </div>
+    </button>
   );
 }
 

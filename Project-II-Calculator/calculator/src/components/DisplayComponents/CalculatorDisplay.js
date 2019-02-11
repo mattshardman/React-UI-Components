@@ -15,6 +15,7 @@ const Display = ({result}) => (
       height: 80,
       background: "#484848",
       fontSize: 50,
+      cursor: "pointer"
     }}
   >
   {result}
