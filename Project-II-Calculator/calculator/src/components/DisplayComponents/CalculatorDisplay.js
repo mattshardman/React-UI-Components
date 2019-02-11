@@ -18,7 +18,7 @@ const Display = ({result}) => (
       cursor: "pointer"
     }}
   >
-  {result}
+  {result || 0}
   </div>
 );
 

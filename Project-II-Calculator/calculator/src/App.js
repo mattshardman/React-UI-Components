@@ -24,16 +24,22 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      total: 0,
+      total: null,
       expression: [],
       prevResult: 0
     };
   }
 
   numberPressHandler(input) {
-    const { expression } = this.state;
+    const { total, expression } = this.state;
     const newExpression = [...expression, Number(input)];
-    this.setState({ total: input, expression: newExpression });
+    if (total && !isNaN(total)) {
+      return this.setState({
+        total: `${total}${input}`,
+        expression: newExpression
+      });
+    }
+    return this.setState({ total: input, expression: newExpression });
   }
 
   actionPressHandler(input) {
@@ -45,7 +51,7 @@ class App extends Component {
   clearHandler() {
     this.setState({
       prevResult: 0,
-      total: 0,
+      total: null,
       expression: []
     });
   }
@@ -60,9 +66,10 @@ class App extends Component {
   }
 
   render() {
+    console.log(this.state)
     const { total } = this.state;
     return (
-      <div style={styles.calcWrapper}>
+      <section style={styles.calcWrapper}>
         <div style={{ border: "1px #484848 solid" }}>
           <Display result={total} />
           <div style={{ display: "flex" }}>
@@ -103,7 +110,7 @@ class App extends Component {
             </div>
           </div>
         </div>
-      </div>
+      </section>
     );
   }
 }

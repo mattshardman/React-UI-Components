@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Button.css";
 
 const ActionButton = ({ action, width = 80, background = "crimson", handler }) => {
+    
   return (
     <button
       style={{

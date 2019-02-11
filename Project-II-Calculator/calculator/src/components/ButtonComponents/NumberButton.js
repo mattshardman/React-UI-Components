@@ -4,7 +4,7 @@ import "./Button.css";
 function NumberButton({ number, width = 80, pressHandler }) {
   return (
     <button
-    className="btn"
+      className="btn"
       style={{
         width,
         boxSizing: "border-box",
