@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import "./App.css";
 import NumberButton from "./components/ButtonComponents/NumberButton";
 import ActionButton from "./components/ButtonComponents/ActionButton";
@@ -20,99 +20,86 @@ const styles = {
   }
 };
 
-class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      total: null,
-      expression: [],
-      prevResult: 0
-    };
-  }
+const App = () => {
+  const [total, setTotal] = useState(0);
+  const [expression, setExpression] = useState([]);
+  const [prevResult, setPrevResult] = useState(0);
 
-  numberPressHandler(input) {
-    const { total, expression } = this.state;
+  const numberPressHandler = input => {
     const newExpression = [...expression, Number(input)];
     if (total && !isNaN(total)) {
-      return this.setState({
-        total: `${total}${input}`,
-        expression: newExpression
-      });
+      setTotal(`${total}${input}`);
+      setExpression(newExpression);
+      return null;
     }
-    return this.setState({ total: input, expression: newExpression });
-  }
+    setTotal(input);
+    setExpression(newExpression);
+    return null;
+  };
 
-  actionPressHandler(input) {
-    const { expression } = this.state;
+  const actionPressHandler = input => {
     const newExpression = [...expression, input];
-    this.setState({ total: input, expression: newExpression });
-  }
+    setTotal(input);
+    setExpression(newExpression);
+  };
 
-  clearHandler() {
-    this.setState({
-      prevResult: 0,
-      total: null,
-      expression: []
-    });
-  }
+  const clearHandler = () => {
+    setTotal(null);
+    setPrevResult(0);
+    setExpression([]);
+  };
 
-  resultHandler() {
-    const { prevResult, expression } = this.state;
+  const resultHandler = () => {
     const expressionString = prevResult
       ? [prevResult, ...expression].join("")
       : expression.join("");
     const result = eval(expressionString);
-    this.setState({ prevResult: result, total: result, expression: [] });
-  }
+    setPrevResult(result);
+    setTotal(result);
+    setExpression([]);
+  };
 
-  render() {
-    console.log(this.state)
-    const { total } = this.state;
-    return (
-      <section style={styles.calcWrapper}>
-        <div style={{ border: "1px #484848 solid" }}>
-          <Display result={total} />
-          <div style={{ display: "flex" }}>
-            <div>
-              <ActionButton
-                width={240}
-                action="CLEAR"
-                background="#fff"
-                handler={() => this.clearHandler()}
-              />
-              <div style={styles.btnWrapper}>
-                {[3, 2, 1, 6, 5, 4, 9, 8, 7].reverse().map(number => (
-                  <NumberButton
-                    key={number}
-                    number={number}
-                    pressHandler={this.numberPressHandler.bind(this)}
-                  />
-                ))}
-              </div>
-              <NumberButton
-                number={0}
-                width={240}
-                pressHandler={this.numberPressHandler.bind(this)}
-              />
-            </div>
-            <div>
-              {["/", "*", "-", "+"].map(action => (
-                <ActionButton
-                  key={action}
-                  action={action}
-                  handler={this.actionPressHandler.bind(this)}
+  return (
+    <section style={styles.calcWrapper}>
+      <div style={{ border: "1px #484848 solid" }}>
+        <Display result={total} />
+        <div style={{ display: "flex" }}>
+          <div>
+            <ActionButton
+              width={240}
+              action="CLEAR"
+              background="#fff"
+              handler={() => clearHandler()}
+            />
+            <div style={styles.btnWrapper}>
+              {[3, 2, 1, 6, 5, 4, 9, 8, 7].reverse().map(number => (
+                <NumberButton
+                  key={number}
+                  number={number}
+                  pressHandler={numberPressHandler}
                 />
               ))}
-              <ActionButton
-                action="="
-                handler={this.resultHandler.bind(this)}
-              />
             </div>
+            <NumberButton
+              number={0}
+              width={240}
+              pressHandler={numberPressHandler}
+            />
+          </div>
+          <div>
+            {["/", "*", "-", "+"].map(action => (
+              <ActionButton
+                key={action}
+                action={action}
+                handler={actionPressHandler}
+              />
+            ))}
+            <ActionButton action="=" handler={resultHandler} />
           </div>
         </div>
-      </section>
-    );
-  }
-}
+      </div>
+    </section>
+  );
+};
 
 export default App;
